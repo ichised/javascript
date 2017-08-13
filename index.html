@@ -1,28 +1,175 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Javascript入門</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <h1>設定</h1>
-        <p>
-            お気に入り: <input type="text" id="favorite" value="★"><br>
-            <input type="button" id="execute" value="送信"><br>
-        </p>
-        <h1>結果</h1>
-        <p>
-            可否: <input type="text" id="result" value=""><br> 
-            内容: <input type="text" id="detail" value=""><br>
-        </p>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="jquery-3.1.1.min.js"></script>
-        <script src="default.js"></script>
+        <!-- scriptのパースを先にしないとダメ。なので、
+            定義しておく必要がある。
+        -->
+        <p id ="sample">バティストゥータ</p>
+        <button id = "add"> 押す！と上に出てくる</button>
+        <button id = "move"> 移動！とブログに移動する</button>
+        <script>
+            //変数宣言
+            var str = "helloworld";
+            console.log(str);
+            
+            //文字列足す
+            str += "sample";
+            console.log(str);
+            
+            //条件分
+            if (str === "sample"){
+              console.log("ok");
+            } else {
+              console.log("ng");
+            }
+            
+            //関数定義
+            //function 関数名(引数）{return A;}
+            //returnは必要なし。functionの頭に型を入れる必要なし。
+            //ローカル変数、グローバル変数の考え方もある？
+            function hello(name){
+                var functionlog = "function1"+name;
+                return functionlog;
+            }
+            var strresult = hello("BOB");
+            console.log(strresult);
+
+            //無名関数もかける（上記のhelloがなくなっている。）
+            var mumei = function(name){ //無名関数、匿名関数
+                var functionlog = "function1"+name;
+                return functionlog;
+            };
+            
+            strresult = "";
+            strresult = mumei("HIROHIRORIN");
+            console.log(strresult);
+
+            //即時関数
+            //他の人からのアクセスがしにくくなる。
+            (function goodbuy(name){
+                var s = 10;
+                var d = 10;
+                console.log("goodbuy"+name+s+d); 
+            })("TOM");
+            
+            //タイマー処理
+            //setInterval 前の処理が終わったかどうか考えない
+            //setTimeout  前の処理が終わったことを考慮する
+            var i = 0;
+            function show(){
+                console.log(i++);
+　　　　　　}
+            setTimeout(function(){
+                show();
+            },100);
+            
+            
+            // setTimeoutで抜ける
+            var i = 0;
+            function show() {
+                console.log(i++);
+                var tid = setTimeout(function() {
+                    show();
+                }, 1000);
+                if (i > 3) {
+                    clearTimeout(tid);
+                }
+            }
+            
+            //Array配列
+            //文字列と数字を両方定義できる
+            var tadashi = [177, 44, 100, "tadashi"];
+            tadashi[2] = 400;
+            console.log(tadashi);
+            
+            //objectオブジェクト
+            //名前と値を結びつける
+            //2行以上つなげる場合は","を使用する。
+            var user = {
+                email: "tadashi@gmail.com",//プロパティ
+                score: 80,
+                test: function(name){ //メソッド
+                    //自分のプロパティを使用する場合はthis.を使用する。
+                    console.log(name + this.score);                    
+                }
+            };
+            console.log(user["email"]);
+            console.log(user.email);
+            //値の書き換え
+            user.email = "matyotadashi@gmail.com";
+            user.test("tom");
+            console.log(user);
+            
+            //組み込みオブジェクト
+            //String
+            //Array
+            //Date
+            var str = new String("tadashi");
+            console.log(str.length);
+            console.log(str.replace("a","i"));
+            console.log(str.substr(1,2));
+            
+            var arrayobj = new Array(1,2,3,"tadashi");
+            console.log(arrayobj.length);
+            arrayobj.unshift("先頭追加");
+            arrayobj.push("末尾追加");
+            console.log(arrayobj);
+            arrayobj.shift();
+            arrayobj.pop();
+            console.log(arrayobj);
+            // 途中で要素を削除する。
+            arrayobj.splice(1,2);
+            //途中で要素を削除して追加する
+            arrayobj.splice(1,2,200,600);
+            
+            var d = new Date();
+            console.log(d.getFullYear());
+            console.log(d.getMonth());
+            
+            //DOM 
+            //console.dir()でオブジェクトをいられる
+            console.dir(d);
+            console.log(window.outerHeight);
+            
+            // document 今開いているページ
+            // document object model(DOM)
+            // ただしブラウザ事に変化する（最新版とかバージョンによって異なる。）
+            
+            //DOMをいじるときはツリー構造をいじる
+            //Javascriptの場合、idを指定していじることになる。
+            //下記でid = sampleが変化する。
+            var element = document.getElementById('sample');
+            //中身を変更するときに使用する
+            element.textContent = '変化したよ！';
+            // 子要素を追加する
+            var food = document.createElement('p'),
+                    text = document.createTextNode('pasta');
+            document.body.appendChild(food).appendChild(text);
+            
+            //イベント設定
+            document.getElementById("add").addEventListener('click', function() 
+            {
+                //上部に警告出す。
+                alert("Done");
+
+                //OK,NGを出す。if文と組み合わせたりする
+                var answer =confirm("are you sure?");
+                console.log(answer);
+
+                //上のほうで入力促し
+                var name = prompt("お名前は？");//第２引数の場合初期値も可能
+                console.log(name);
+            });
+            
+            document.getElementById("move").addEventListener("click",
+            function(){
+                window.location.href = "http://irukiti.wpblog.jp/";
+            });
+        </script>
     </body>
 </html>
